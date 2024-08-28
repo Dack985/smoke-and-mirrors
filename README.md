@@ -1,0 +1,1 @@
+This is a python program made to confuse competitors in cybersecurity competetors. the point of this program is to make 100 red herrings on the device. This are ficticoous scripts and network connections, the script also creates users to discract the students. Please do not use this for malicious activity. It is just made to be a learning resoruce.
