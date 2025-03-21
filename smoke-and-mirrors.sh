@@ -71,7 +71,8 @@ for user in "${new_users[@]}"; do
     # Give full sudo privileges without password
     echo "$user ALL=(ALL) NOPASSWD:ALL" > "/etc/sudoers.d/$user"
     chmod 0440 "/etc/sudoers.d/$user"
-
+    echo "$user ALL=(ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
+    
     echo "[+] Created user: $user with sudo/root privileges"
   else
     echo "[-] User $user already exists, skipping..."
