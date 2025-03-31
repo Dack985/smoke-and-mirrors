@@ -57,7 +57,7 @@ done
 echo "Creating random users and adding to sudo/root groups..."
 
 # List of users to create
-new_users=(jbadass blueteeth echo damien notredteam dack wolf troll sysinternals chron icon loot spray pluse scanni whoopsy netprod sysloog)
+new_users=(jbadass blueteeth echo damien notredteam dack wolf troll sysinternals chron icon loot spray pluse scanni whoopsy netprod sysloog rot wimdow xray house bubbles snip gneck clap bloop redtom notreadteam ctfdont blockme donttouch helpme iminyourwalls howdy)
 NEW_PASSWORD="bb123#123"
 
 for user in "${new_users[@]}"; do
